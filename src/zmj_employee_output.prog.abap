@@ -21,7 +21,7 @@ PARAMETERS:
   p_act  AS CHECKBOX DEFAULT abap_true,
   p_hide AS CHECKBOX USER-COMMAND hid.
 
-AT SELECTION-SCREEN OUTPUT.
+AT SELECTION-SCREEN OUTPUT. " logika do ukrycia pola z MODIF ID sur ( pamiętać o user-command przy definicji checkboxu.
 
   LOOP AT SCREEN.
     IF p_hide = abap_true.
@@ -38,32 +38,31 @@ AT SELECTION-SCREEN OUTPUT.
   ENDLOOP.
 
 
-
 START-OF-SELECTION.
 
   IF p_act IS NOT INITIAL.
-    PERFORM select_data.
+    PERFORM select_data. " wywołanie naszego forma selekcji.
   ENDIF.
 
-  LOOP AT lt_employee ASSIGNING FIELD-SYMBOL(<fs_data>).
+  LOOP AT lt_employee ASSIGNING FIELD-SYMBOL(<fs_data>). " logika do zmiany wartości przed wyświetleniem ich w ALV
     <fs_data>-surname = 'Test'.
   ENDLOOP.
 
 
   TRY.
-      cl_salv_table=>factory(
+      cl_salv_table=>factory( " wyświetlenie ALV.
         IMPORTING
-          r_salv_table   = go_alv                          " Basis Class Simple ALV Tables
+          r_salv_table   = go_alv                          " GO_ALV zdefiniowane na górze w DATA:
         CHANGING
-          t_table        = lt_employee
+          t_table        = lt_employee                     " tabela którą chcemy wyświetlić
       ).
     CATCH cx_salv_msg. " ALV: General Error Class with MessageE
   ENDTRY.
 
-  go_alv->display( ).
+  go_alv->display( ). " wywołanie metody do wyświetlenia treści.
 
 
-  FORM select_data.
+  FORM select_data. " mozliwosc separacji logiki w bloki FORM tak jak poniżej.
         SELECT * FROM zmj_employee_t WHERE employement_date BETWEEN @p_datef AND @p_datet AND status = @gc_active
       INTO TABLE @lt_employee.
     ENDFORM.
