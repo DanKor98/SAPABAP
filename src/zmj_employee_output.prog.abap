@@ -50,7 +50,7 @@ START-OF-SELECTION.
 
 
   TRY.
-      cl_salv_table=>factory( " wyświetlenie ALV.
+      cl_salv_table=>factory( " wyświetlenie ALV. Pamiętaj o ctrl+space cl_salv_table=> ( ctrl + space )
         IMPORTING
           r_salv_table   = go_alv                          " GO_ALV zdefiniowane na górze w DATA:
         CHANGING
