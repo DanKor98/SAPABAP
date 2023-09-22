@@ -3,7 +3,8 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <PROGDIR>
-    <NAME>LZMJ_EMPLOYEE_TT00</NAME>
+    <NAME>LZMJ_EMPLOYEE_VF00</NAME>
+    <SQLX>X</SQLX>
     <SUBC>I</SUBC>
     <RLOAD>E</RLOAD>
    </PROGDIR>

@@ -62,7 +62,7 @@ START-OF-SELECTION.
   go_alv->display( ). " wywołanie metody do wyświetlenia treści.
 
 
-  FORM select_data. " mozliwosc separacji logiki w bloki FORM tak jak poniżej.
-        SELECT * FROM zmj_employee_t WHERE employement_date BETWEEN @p_datef AND @p_datet AND status = @gc_active
-      INTO TABLE @lt_employee.
-    ENDFORM.
+FORM select_data. " mozliwosc separacji logiki w bloki FORM tak jak poniżej.
+  SELECT * FROM zmj_employee_t WHERE employement_date BETWEEN @p_datef AND @p_datet AND status = @gc_active
+INTO TABLE @lt_employee.
+ENDFORM.
