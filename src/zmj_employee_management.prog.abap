@@ -18,8 +18,9 @@ SELECTION-SCREEN END OF BLOCK b1.
 SELECTION-SCREEN BEGIN OF BLOCK b2 WITH FRAME TITLE TEXT-001.
 PARAMETERS:
   p_salary AS CHECKBOX USER-COMMAND pay MODIF ID upa,
-  p_status AS CHECKBOX USER-COMMAND sta DEFAULT 'X' MODIF ID ust,
-  p_surnam AS CHECKBOX USER-COMMAND sur MODIF ID usu.
+  p_status AS CHECKBOX USER-COMMAND sta  MODIF ID ust, " this paramter is for calculating something.
+  p_surnam AS CHECKBOX USER-COMMAND sur MODIF ID usu,
+  p_disp   AS CHECKBOX USER-COMMAND dis MODIF ID dis.
 SELECTION-SCREEN END OF BLOCK b2.
 
 DATA: ls_log TYPE zmj_log_t.
@@ -62,39 +63,144 @@ AT SELECTION-SCREEN OUTPUT.
 
 START-OF-SELECTION.
 
-*  IF p_surnam IS NOT INITIAL.
-*    SELECT SINGLE * FROM zmj_employee_t WHERE id = @p_eid INTO  @DATA(ls_employee).
-*    ls_employee-surname = p_newsur.
-*    UPDATE zmj_employee_t FROM ls_employee.
+
+  CASE sy-ucomm.
+
+    WHEN 'PAY'.
+
+    WHEN OTHERS.
+  ENDCASE.
+
+  IF p_disp IS NOT INITIAL.
+    SELECT employee~id,
+      employee~positionid,
+      employee~name,
+      employee~surname,
+      zmj_workpos_t~salary,
+           zmj_workpos_t~position_name,
+      zmj_workpos_t~description
+      FROM zmj_employee_t AS employee
+      INNER JOIN zmj_workpos_t
+      ON employee~positionid = zmj_workpos_t~id INTO TABLE @DATA(lt_overview).
+
+*    DATA: go_alv TYPE REF TO cl_salv_table.
+*    TRY.
+*        cl_salv_table=>factory( " wyświetlenie ALV. Pamiętaj o ctrl+space cl_salv_table=> ( ctrl + space )
+*          IMPORTING
+*            r_salv_table   = go_alv                          " GO_ALV zdefiniowane na górze w DATA:
+*          CHANGING
+*            t_table        = lt_overview                     " tabela którą chcemy wyświetlić
+*        ).
+*      CATCH cx_salv_msg. " ALV: General Error Class with MessageE
+*    ENDTRY.
 *
-*    IF sy-subrc = 0.
-*
-*      ls_log-date_change = sy-datum.
-*      ls_log-username = sy-uname.
-*      ls_log-tablename = 'ZMJ_EMPLOYEE_T'.
-*      ls_log-fieldname = 'SURNAME'.
-*
-*      INSERT zmj_log_t FROM ls_log.
-*    ENDIF.
-*  ENDIF.
+*    go_alv->display( ). " wywołanie metody do wyświetlenia treści.
+    DATA: lt_fieldcat TYPE slis_t_fieldcat_alv,
+          ls_fieldcat TYPE slis_fieldcat_alv.
 
 
-  SELECT employee~id,
-    employee~positionid,
-    employee~name,
-    employee~surname,
-         zmj_workpos_t~position_name,
-    zmj_workpos_t~description
-    FROM zmj_employee_t AS employee
-    INNER JOIN zmj_workpos_t
-    ON employee~positionid = zmj_workpos_t~id INTO TABLE @DATA(lt_overview)  WHERE employee~id = @p_eid.
+    CALL FUNCTION 'REUSE_ALV_FIELDCATALOG_MERGE'
+      EXPORTING
+        i_structure_name       = 'ZMJ_OUTPUT_S'
+      CHANGING
+        ct_fieldcat            = lt_fieldcat
+      EXCEPTIONS
+        inconsistent_interface = 1
+        program_error          = 2
+        OTHERS                 = 3.
+    IF sy-subrc <> 0.
+* Implement suitable error handling here
+    ENDIF.
 
+    LOOP AT lt_fieldcat ASSIGNING FIELD-SYMBOL(<fs_fieldcat>).
+      IF <fs_fieldcat>-fieldname = 'SALARY'.
+        <fs_fieldcat>-edit = abap_true.
+      ENDIF.
+    ENDLOOP.
+    DATA: ls_layout TYPE slis_layout_alv.
 
-  IF sy-subrc <> 0.
-
-*    MESSAGE i000(zmm_employee) WITH p_eid DISPLAY LIKE 'E'.
-
+    ls_layout-colwidth_optimize = abap_true.
+    ls_layout-expand_all = abap_true.
+    ls_layout-cell_merge = abap_true.
+    CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
+      EXPORTING
+        i_callback_program       = sy-repid
+*       I_INTERFACE_CHECK        = ' '
+*       I_BYPASSING_BUFFER       = ' '
+*       I_BUFFER_ACTIVE          = ' '
+        i_callback_pf_status_set = 'SET_STATUS'
+        i_callback_user_command  = 'USR_COMMAND'
+*       I_CALLBACK_TOP_OF_PAGE   = ' '
+*       I_CALLBACK_HTML_TOP_OF_PAGE       = ' '
+*       I_CALLBACK_HTML_END_OF_LIST       = ' '
+*       I_STRUCTURE_NAME         =
+*       I_BACKGROUND_ID          = ' '
+*       I_GRID_TITLE             =
+*       I_GRID_SETTINGS          =
+        is_layout                = ls_layout
+        it_fieldcat              = lt_fieldcat
+*       IT_EXCLUDING             =
+*       IT_SPECIAL_GROUPS        =
+*       IT_SORT                  =
+*       IT_FILTER                =
+*       IS_SEL_HIDE              =
+*       I_DEFAULT                = 'X'
+*       IS_VARIANT               =
+*       IT_EVENTS                =
+*       IT_EVENT_EXIT            =
+*       IS_PRINT                 =
+*       IS_REPREP_ID             =
+*       I_SCREEN_START_COLUMN    = 0
+*       I_SCREEN_START_LINE      = 0
+*       I_SCREEN_END_COLUMN      = 0
+*       I_SCREEN_END_LINE        = 0
+*       I_HTML_HEIGHT_TOP        = 0
+*       I_HTML_HEIGHT_END        = 0
+*       IT_ALV_GRAPHICS          =
+*       IT_HYPERLINK             =
+*       IT_ADD_FIELDCAT          =
+*       IT_EXCEPT_QINFO          =
+*       IR_SALV_FULLSCREEN_ADAPTER        =
+* IMPORTING
+*       E_EXIT_CAUSED_BY_CALLER  =
+*       ES_EXIT_CAUSED_BY_USER   =
+      TABLES
+        t_outtab                 = lt_overview
+      EXCEPTIONS
+        program_error            = 1
+        OTHERS                   = 2.
+    IF sy-subrc <> 0.
+* Implement suitable error handling here
+    ENDIF.
   ENDIF.
 
+FORM set_status USING rt_extab TYPE slis_t_extab.
+  SET PF-STATUS 'GUI'.
+ENDFORM.
 
-  BREAK-POINT.
+FORM usr_command USING r_ucomm LIKE sy-ucomm
+                        rs_selfield TYPE slis_selfield.     "#EC CALLED
+  CASE sy-ucomm.
+    WHEN 'EXIT'.
+      LEAVE PROGRAM.
+    WHEN 'SAVE'.
+      DATA : ref_grid TYPE REF TO cl_gui_alv_grid. "new
+      IF ref_grid IS INITIAL.
+        CALL FUNCTION 'GET_GLOBALS_FROM_SLVC_FULLSCR'
+          IMPORTING
+            e_grid = ref_grid.
+      ENDIF.
+
+      IF NOT ref_grid IS INITIAL.
+        CALL METHOD ref_grid->check_changed_data.
+      ENDIF.
+      DATA: ls_employee_ch TYPE zmj_employee_t.
+
+      LOOP AT lt_overview ASSIGNING FIELD-SYMBOL(<fs_over>).
+
+        ls_employee_ch-salary = <fs_over>-salary.
+      ENDLOOP.
+
+  ENDCASE.
+
+ENDFORM.

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZMJ_CL_EMPLOYEE_CONTROLLER</CLSNAME>
+    <LANGU>E</LANGU>
+    <DESCRIPT>Employeee controller</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>CONSTRUCTOR</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>constructor</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MO_EMPLOYEE_MODEL</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Employee model class</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MV_DATEF</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ABAP System Field: Current Date of Application Server</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MV_DATET</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ABAP System Field: Current Date of Application Server</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>CONSTRUCTOR</CMPNAME>
+     <SCONAME>IP_DATE_FROM</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ABAP System Field: Current Date of Application Server</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>CONSTRUCTOR</CMPNAME>
+     <SCONAME>IP_DATE_TO</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>ABAP System Field: Current Date of Application Server</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>START_PROCESSING</CMPNAME>
+     <SCONAME>RT_EMPLOYEE</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>employee table type</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
+  </asx:values>
+ </asx:abap>
+</abapGit>

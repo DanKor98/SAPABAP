@@ -11,6 +11,11 @@ CONSTANTS:
 DATA: lt_employee TYPE STANDARD TABLE OF zmj_employee_t,
       go_alv      TYPE REF TO cl_salv_table.
 
+
+DATA: go_employee TYPE REF TO zmj_cl_employee_controller.
+
+
+
 SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-000.
 PARAMETERS:
   p_datef TYPE sy-datum DEFAULT sy-datum,
@@ -37,16 +42,17 @@ AT SELECTION-SCREEN OUTPUT. " logika do ukrycia pola z MODIF ID sur ( pamiętać
 
   ENDLOOP.
 
-
+*
 START-OF-SELECTION.
+  CREATE OBJECT go_employee
+    EXPORTING
+      iv_action    = p_act
+      ip_date_from = p_datef                " ABAP System Field: Current Date of Application Server
+      ip_date_to   = p_datet.         " ABAP System Field: Current Date of Application Server
 
-  IF p_act IS NOT INITIAL.
-    PERFORM select_data. " wywołanie naszego forma selekcji.
-  ENDIF.
 
-  LOOP AT lt_employee ASSIGNING FIELD-SYMBOL(<fs_data>). " logika do zmiany wartości przed wyświetleniem ich w ALV
-    <fs_data>-surname = 'Test'.
-  ENDLOOP.
+  DATA(gt_employee) = go_employee->start_processing( ).
+
 
 
   TRY.
@@ -54,15 +60,9 @@ START-OF-SELECTION.
         IMPORTING
           r_salv_table   = go_alv                          " GO_ALV zdefiniowane na górze w DATA:
         CHANGING
-          t_table        = lt_employee                     " tabela którą chcemy wyświetlić
+          t_table        = gt_employee                     " tabela którą chcemy wyświetlić
       ).
     CATCH cx_salv_msg. " ALV: General Error Class with MessageE
   ENDTRY.
 
   go_alv->display( ). " wywołanie metody do wyświetlenia treści.
-
-
-FORM select_data. " mozliwosc separacji logiki w bloki FORM tak jak poniżej.
-  SELECT * FROM zmj_employee_t WHERE employement_date BETWEEN @p_datef AND @p_datet AND status = @gc_active
-INTO TABLE @lt_employee.
-ENDFORM.
