@@ -5,6 +5,8 @@ class ZMJ_CL_EMPLOYEE_CONTROLLER definition
 
 public section.
 
+  interfaces ZIF_EXAMPLE_INTERFACE .
+
   methods CONSTRUCTOR
     importing
       !IV_ACTION type C optional
@@ -50,4 +52,9 @@ CLASS ZMJ_CL_EMPLOYEE_CONTROLLER IMPLEMENTATION.
 *      ## lt_employee i wykonujemy to co nas interesuje i nastepnie zwracamy na zewnatrz tabele wynikowa
     ENDIF.
   ENDMETHOD.
+
+
+  method ZIF_EXAMPLE_INTERFACE~GET_DATA.
+    WRITE 'Controller'.
+  endmethod.
 ENDCLASS.

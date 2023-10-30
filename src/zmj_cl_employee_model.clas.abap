@@ -5,6 +5,8 @@ class ZMJ_CL_EMPLOYEE_MODEL definition
 
 public section.
 
+  interfaces ZIF_EXAMPLE_INTERFACE .
+
   methods GET_DATA
     importing
       !IP_DATE_FROM type SY-DATUM
@@ -42,4 +44,9 @@ INTO TABLE @rt_employee.
 
 
   ENDMETHOD.
+
+
+  method ZIF_EXAMPLE_INTERFACE~GET_DATA.
+    WRITE: 'MODEL'.
+  endmethod.
 ENDCLASS.
