@@ -32,6 +32,14 @@
       <FUN_TEXT>Back</FUN_TEXT>
      </RSMPE_FUNT>
      <RSMPE_FUNT>
+      <CODE>DELETE</CODE>
+      <TEXTNO>001</TEXTNO>
+      <TEXT_TYPE>S</TEXT_TYPE>
+      <TEXT_NAME>ICON_START_VIEWER</TEXT_NAME>
+      <ICON_ID>@Y2@</ICON_ID>
+      <FUN_TEXT>Delete</FUN_TEXT>
+     </RSMPE_FUNT>
+     <RSMPE_FUNT>
       <CODE>EXIT</CODE>
       <TEXTNO>001</TEXTNO>
       <TEXT_TYPE>S</TEXT_TYPE>
@@ -47,12 +55,40 @@
       <ICON_ID>@2L@</ICON_ID>
       <FUN_TEXT>Save</FUN_TEXT>
      </RSMPE_FUNT>
+     <RSMPE_FUNT>
+      <CODE>TEST</CODE>
+      <TEXTNO>001</TEXTNO>
+      <TEXT_TYPE>S</TEXT_TYPE>
+      <TEXT_NAME>ICON_COLUMN_RIGHT</TEXT_NAME>
+      <ICON_ID>@0E@</ICON_ID>
+      <FUN_TEXT>Test call</FUN_TEXT>
+     </RSMPE_FUNT>
     </FUN>
+    <BUT>
+     <RSMPE_BUT>
+      <PFK_CODE>000001</PFK_CODE>
+      <CODE>0001</CODE>
+      <NO>01</NO>
+      <PFNO>06</PFNO>
+     </RSMPE_BUT>
+    </BUT>
     <PFK>
+     <RSMPE_PFK>
+      <CODE>000001</CODE>
+      <PFNO>02</PFNO>
+      <FUNCODE>TEST</FUNCODE>
+      <FUNNO>001</FUNNO>
+     </RSMPE_PFK>
      <RSMPE_PFK>
       <CODE>000001</CODE>
       <PFNO>03</PFNO>
       <FUNCODE>BACK</FUNCODE>
+      <FUNNO>001</FUNNO>
+     </RSMPE_PFK>
+     <RSMPE_PFK>
+      <CODE>000001</CODE>
+      <PFNO>06</PFNO>
+      <FUNCODE>DELETE</FUNCODE>
       <FUNNO>001</FUNNO>
      </RSMPE_PFK>
      <RSMPE_PFK>
@@ -75,11 +111,19 @@
      </RSMPE_STAF>
      <RSMPE_STAF>
       <STATUS>GUI</STATUS>
+      <FUNCTION>DELETE</FUNCTION>
+     </RSMPE_STAF>
+     <RSMPE_STAF>
+      <STATUS>GUI</STATUS>
       <FUNCTION>EXIT</FUNCTION>
      </RSMPE_STAF>
      <RSMPE_STAF>
       <STATUS>GUI</STATUS>
       <FUNCTION>SAVE</FUNCTION>
+     </RSMPE_STAF>
+     <RSMPE_STAF>
+      <STATUS>GUI</STATUS>
+      <FUNCTION>TEST</FUNCTION>
      </RSMPE_STAF>
     </SET>
     <DOC>

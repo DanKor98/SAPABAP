@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_EMPLOYEE_DAO</CLSNAME>
+    <LANGU>E</LANGU>
+    <DESCRIPT>Data Acess Object for Employee</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>GET_BY_ID</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Get Employee by ID</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_BY_ID</CMPNAME>
+     <SCONAME>IV_EMPLOYEE_ID</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Employee ID</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_BY_ID</CMPNAME>
+     <SCONAME>RS_OUTPUT</SCONAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Employee table</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
+  </asx:values>
+ </asx:abap>
+</abapGit>
